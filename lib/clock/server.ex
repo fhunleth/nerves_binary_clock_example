@@ -1,6 +1,7 @@
 defmodule Clock.Server do
   use GenServer
-  alias Clock.{LED, Core}
+  alias Clock.BlinkerWithAdapter, as: Blinker
+  alias Clock.Core
   
   # GenServer API
   def start_link(initial_state \\ default_options()) do
@@ -23,22 +24,19 @@ defmodule Clock.Server do
     {:noreply, clock |> Core.tick |> set_leds}
   end
   
-  # Support fns for callbacks
-  # frank, what's the best way to configure this? 
-  # needs a default for :host, and a configuration for the mix target
-  def default_pins, do: %{0 => 26, 1 => 13, 2 => 6, 3 => 5, 4 => 16, 5 =>12}
-  def default_time, do: Time.utc_now().second  
-  def default_send_ticks, do: :timer.send_interval(200, :tick)
-  
   def default_options do
-    {default_pins(), default_time(), &default_send_ticks/0}
+    {
+      Application.get_env(:clock, :pins), 
+      Time.utc_now().second, 
+      fn -> :timer.send_interval(1000, :tick) end
+    }
   end
       
   # Support for for hardware
   def open_gpio_pins(pins) do
     0..5
     |> Enum.map(fn bit -> 
-      {bit, LED.open(pins[bit])} 
+      {bit, Blinker.adapter.open(pins[bit])} 
     end)
     |> Map.new
   end
@@ -47,7 +45,6 @@ defmodule Clock.Server do
     Enum.each(Core.status(clock), &toggle/1)
     clock
   end
-  defp toggle({led, true}), do: LED.on(led)
-  defp toggle({led, false}), do: LED.off(led)
-  
+  defp toggle({led, true}), do: Blinker.adapter.on(led)
+  defp toggle({led, false}), do: Blinker.adapter.off(led)
 end

@@ -22,8 +22,7 @@ defmodule Clock.Core do
   end
   
   defp on?(time, bit) do
-    :math.pow(2, bit)
-    |> round
+    Bitwise.bsl(1, bit)
     |> Bitwise.band(time)
     |> Kernel.>(0)
   end

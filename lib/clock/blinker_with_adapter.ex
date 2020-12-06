@@ -1,5 +1,4 @@
 defmodule Clock.BlinkerWithAdapter do
-  alias Clock.LEDAdapter
   
   def sleep(wait) do
     Process.sleep(wait)
@@ -18,12 +17,7 @@ defmodule Clock.BlinkerWithAdapter do
       |> Enum.take(times)
   end
   
-  # frank, how do we configure this? Maybe with target.exs and config.exs instead?
   def adapter do
-    cond do
-      Mix.env() == :test -> LEDAdapter.Test
-      Mix.target() == :host -> LEDAdapter.Dev
-      true -> LEDAdapter.Embedded
-    end
+    Application.get_env(:clock, :led_adapter)
   end
 end

@@ -11,6 +11,7 @@ defmodule Clock do
     :ok
   end
   
+  # what if you want to stop the blink half way? 
   def async_blink(gpio, times, wait \\ @default_wait) do
     Task.async(fn -> 
       blink(gpio, times, wait)

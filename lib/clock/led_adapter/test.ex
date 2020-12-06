@@ -1,4 +1,4 @@
-# Frank, do you think we need a protocol here?
+# behaviour or protocol... point the reader to mox
 defmodule Clock.LEDAdapter.Test do
   defstruct [pin: 0, lit: false, history: []]
   
