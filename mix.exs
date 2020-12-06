@@ -14,6 +14,7 @@ defmodule Clock.MixProject do
       start_permanent: Mix.env() == :prod,
       build_embedded: true,
       deps: deps(),
+      aliases: [test: "test --no-start"],
       releases: [{@app, release()}],
       preferred_cli_target: [run: :host, test: :host]
     ]

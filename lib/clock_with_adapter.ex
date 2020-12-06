@@ -1,12 +1,12 @@
 defmodule ClockWithAdapter do
   @default_wait 200
 
-  alias Clock.BlinkerWithAdapter, as: Blinker
+  alias Clock.BlinkerWithAdapter
 
   def blink(gpio, times, wait \\ @default_wait) do
     gpio
-    |> Blinker.adapter().open
-    |> Blinker.blink_times(times, wait)
+    |> BlinkerWithAdapter.open()
+    |> BlinkerWithAdapter.blink_times(times, wait)
 
     :ok
   end

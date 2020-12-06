@@ -14,7 +14,7 @@ defmodule Clock.Application do
       [
         # Children for all targets
         # Starts a worker by calling: Clock.Worker.start_link(arg)
-        # {Clock.Worker, arg},
+        {Clock.Server, Application.get_all_env(:clock)}
       ] ++ children(target())
 
     Supervisor.start_link(children, opts)
@@ -25,15 +25,12 @@ defmodule Clock.Application do
     [
       # Children that only run on the host
       # Starts a worker by calling: Clock.Worker.start_link(arg)
-      # {Clock.Worker, arg},
     ]
   end
 
   def children(_target) do
     [
       # Children for all targets except host
-      # Starts a worker by calling: Clock.Worker.start_link(arg)
-      # {Clock.Worker, arg},
     ]
   end
 

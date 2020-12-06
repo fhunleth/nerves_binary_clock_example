@@ -13,8 +13,8 @@ defmodule LEDTest do
     |> assert_led_value(0)
   end
 
-  def assert_led_value(led, actual) do
-    expected = Circuits.GPIO.read(led)
+  def assert_led_value(led, expected) do
+    actual = Circuits.GPIO.read(led)
     assert expected == actual
     led
   end
