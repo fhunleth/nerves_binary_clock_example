@@ -4,7 +4,7 @@ defmodule LEDTest do
 
   test "Turns lights on and off" do
     26
-    |> LED.open
+    |> LED.open()
     |> LED.off()
     |> assert_led_value(0)
     |> LED.on()
@@ -12,11 +12,10 @@ defmodule LEDTest do
     |> LED.off()
     |> assert_led_value(0)
   end
-  
+
   def assert_led_value(led, actual) do
     expected = Circuits.GPIO.read(led)
     assert expected == actual
     led
   end
-  
 end
